@@ -1,0 +1,26 @@
+{
+  "name": "open_tribe_backend",
+  "version": "1.0.0",
+  "description": "Open tribe backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Open-Tribe-DAO/open-tribe.git"
+  },
+  "author": "Open-Tribe-DAO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Open-Tribe-DAO/open-tribe/issues"
+  },
+  "homepage": "https://github.com/Open-Tribe-DAO/open-tribe#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
