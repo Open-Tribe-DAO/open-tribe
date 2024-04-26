@@ -2,15 +2,24 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { AuthenticationModal } from "~/components/AuthenticationModal";
 import { Layout } from "~/components/Layout";
 
 import { api } from "~/utils/api";
+//import { api } from "~/utils/api/";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  //const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  const { data: users } = api.user.getAll.useQuery()
+  const { mutate, status, error } = api.user.create.useMutation()
+  ///hello.useQuery({ text: "from tRPC" });
   const { address, isConnected } = useAccount();
 
   console.log(isConnected, 'address', address);
+
+  console.log('data users', users);
+
+  console.log('status mutation', status, error);
 
   return (
     <>
@@ -25,13 +34,21 @@ export default function Home() {
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
               Open Tribe
             </h1>
-            <Link href="/auth">
-              <button className="bg-green-500 border-4 border-green-400 hover:border-green-800 hover:bg-transparent mt-5 rounded-lg py-2 px-4">Get Started</button>
-            </Link>
-
-            <div className="flex flex-col items-center gap-2">
            
-            </div>
+
+            {/* <div className="flex flex-col items-center gap-2 text-white">
+              <h2 className="text-2xl">Users</h2>
+
+              {users && users?.map((item) => {
+                return (
+                  <div className="border-solid border-2 border-red-600">
+
+                    <p>{item.name}</p>
+                    <p>{item.email}</p>
+                  </div>
+                )
+              })}
+            </div> */}
           </div>
         </main>
       </Layout>
@@ -42,16 +59,16 @@ export default function Home() {
 function AuthShowcase() {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.post.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  // const { data: secretMessage } = api.post.getSecretMessage.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
+        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <button
         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"

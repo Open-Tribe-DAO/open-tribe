@@ -4,6 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getCsrfToken } from "next-auth/react";
 import { SiweMessage } from "siwe";
 
+import {
+  getServerSession,
+} from "next-auth";
+import { type GetServerSidePropsContext } from "next";
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -68,8 +73,15 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn:"/auth"
+    signIn: "/auth"
   },
+};
+
+export const getServerAuthSession = (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  return getServerSession(ctx.req, ctx.res, authOptions);
 };
 
 const handler = NextAuth(authOptions);
