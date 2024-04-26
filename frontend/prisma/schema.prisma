@@ -60,6 +60,14 @@ model User {
   sessions      Session[]
 }
 
+model Community {
+  id            String    @id @default(cuid())
+  name          String?
+  description       String?
+  image         String?   @unique
+  owner         String?
+}
+
 model VerificationToken {
   identifier String
   token      String   @unique
