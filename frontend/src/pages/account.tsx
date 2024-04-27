@@ -7,7 +7,7 @@ import { Layout } from "~/components/Layout";
 export default function Home() {
   const { disconnectAsync } = useDisconnect();
   const handleSignout = async () => {
-    disconnectAsync();
+    await disconnectAsync();
     signOut({ callbackUrl: "/" });
   };
 
