@@ -7,6 +7,7 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
     scrollsepolia: {
+      gasPrice: 700000000,
       url: "https://sepolia-rpc.scroll.io/",
       accounts: ['920ecc997289519b228019a3ce4d11982c3c151ede1fa0b51c479ae78a16163d']
     },

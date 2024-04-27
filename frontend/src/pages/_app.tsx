@@ -10,7 +10,7 @@ import "~/styles/globals.css";
 import { createWeb3Modal } from '@web3modal/wagmi/react'
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 
-import { arbitrum, mainnet } from 'wagmi/chains'
+import { arbitrum, mainnet, scrollSepolia } from 'wagmi/chains'
 import AuthContext from "~/context/AuthContext";
 import { WagmiProvider } from 'wagmi'
 
@@ -37,7 +37,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     icons: ['https://avatars.githubusercontent.com/u/37784886']
   }
 
-  const chains = [mainnet, arbitrum] as const
+  const chains = [mainnet, arbitrum, scrollSepolia] as const
   const config = defaultWagmiConfig({
     chains,
     projectId,
