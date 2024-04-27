@@ -308,8 +308,8 @@
       ]
     },
     "/Users/robertramirez/Desktop/open-tribe/backend/contracts/TaskManager.sol": {
-      "lastModificationDate": 1714240423216,
-      "contentHash": "3a1e54b88b34961c71365b96ba797071",
+      "lastModificationDate": 1714240903765,
+      "contentHash": "542059a44a7ee2bf3dca3523d28f3d65",
       "sourceName": "contracts/TaskManager.sol",
       "solcConfig": {
         "version": "0.8.23",

@@ -7,9 +7,9 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
     scrollsepolia: {
+      gasPrice: 700000000,
       url: "https://sepolia-rpc.scroll.io/",
-      accounts:
-        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      accounts: ['920ecc997289519b228019a3ce4d11982c3c151ede1fa0b51c479ae78a16163d']
     },
   },
   solidity: "0.8.23",
@@ -18,6 +18,7 @@ module.exports = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts",
+    scripts: "./scripts",
   },
   mocha: {
     timeout: 40000,
