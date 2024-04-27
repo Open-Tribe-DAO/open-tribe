@@ -51,7 +51,7 @@ describe("TaskManager Contract", function () {
 
     it("Should complete a task correctly", async function () {
       await taskManager.connect(owner).createTask(assignee.address, amount);
-      await expect(taskManager.connect(assignee).completeTask(0))
+      await expect(taskManager.connect(owner).completeTask(0))
         .to.emit(taskManager, "TaskCompleted")
         .withArgs(0);
 
