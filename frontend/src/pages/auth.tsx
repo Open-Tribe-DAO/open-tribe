@@ -3,7 +3,6 @@ import React from "react";
 import { SiweMessage } from "siwe";
 import { polygonMumbai } from "viem/chains";
 import { useAccount, useSignMessage, useDisconnect } from "wagmi";
-//import { useWeb3Modal } from "@web3modal/react";
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { getCsrfToken, signIn } from "next-auth/react";
 
@@ -16,7 +15,7 @@ const AuthPage = () => {
   const { disconnect } = useDisconnect()
 
   React.useEffect(() => setMounted(true), []);
-  if(!mounted) return <></>
+  if (!mounted) return <></>
 
   const handleSign = async () => {
     if (!isConnected) open();
@@ -36,12 +35,13 @@ const AuthPage = () => {
       });
 
       setHasSigned(true);
+      close()
 
       const response = await signIn("web3", {
         message: JSON.stringify(message),
         signedMessage,
         redirect: true,
-        callbackUrl: '/success'
+        callbackUrl: '/'
       });
       if (response?.error) {
         console.log("Error occured:", response.error);
@@ -56,14 +56,14 @@ const AuthPage = () => {
     <main className="flex min-h-screen flex-col items-center justify-center">
       {!isConnected && (
         <>
-        <h2 className="text-5xl font-semibold text-gray-400">Firstly,</h2>
-        <p className="text-xl text-gray-500 mt-2 mb-6">you <span className="font-extrabold text-gray-300">need</span> to</p>
-        <button
-          className="rounded-lg py-2 px-4 bg-blue-700 hover:border hover:border-blue-700 hover:bg-transparent"
-          onClick={() => open()}
-        >
-          Connect Wallet
-        </button>
+          <h2 className="text-5xl font-semibold text-gray-400">Firstly,</h2>
+          <p className="text-xl text-gray-500 mt-2 mb-6">you <span className="font-extrabold text-gray-300">need</span> to</p>
+          <button
+            className="rounded-lg py-2 px-4 bg-blue-700 hover:border hover:border-blue-700 hover:bg-transparent"
+            onClick={() => open()}
+          >
+            Connect Wallet
+          </button>
         </>
       )}
       {isConnected && !hasSigned && (
