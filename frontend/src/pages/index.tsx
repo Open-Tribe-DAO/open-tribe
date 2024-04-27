@@ -8,13 +8,10 @@ import { api } from "~/utils/api";
 
 import { useWriteContract } from "wagmi";
 
-import TaskManagerAbi from "~/abi/TaskManager";
-
 import { config } from "~/lib/config";
 
-
-
-
+import { TaskManagerABI } from '~/abi/TaskManager'
+import Web3 from 'web3';
 
 
 export default function Home() {
@@ -79,9 +76,9 @@ export default function Home() {
               className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
                 writeContract({
-                  address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
-                  abi: TaskManagerAbi,
-                  functionName: "createTask",
+                  abi: TaskManagerABI,
+                  address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
+                  functionName: 'mint',
                   args: [
                     "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
                     "100000000000000",

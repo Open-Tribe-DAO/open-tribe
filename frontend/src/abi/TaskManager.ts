@@ -1,4 +1,5 @@
-export const TaskManagerAbi = [
+
+export const TaskManagerABI = [
   {
     inputs: [
       {
