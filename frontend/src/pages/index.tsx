@@ -6,10 +6,16 @@ import { Layout } from "~/components/Layout";
 
 import { api } from "~/utils/api";
 
-import { useWriteContract } from 'wagmi'
+import { useWriteContract } from "wagmi";
 
-import TaskManager from '~/abi/TaskManager.json'
-import Web3 from 'web3';
+import TaskManagerAbi from "~/abi/TaskManager";
+
+import { config } from "~/lib/config";
+
+
+
+
+
 
 export default function Home() {
   //const hello = api.post.hello.useQuery({ text: "from tRPC" });
@@ -19,7 +25,7 @@ export default function Home() {
   ///hello.useQuery({ text: "from tRPC" });
   const { address, isConnected } = useAccount();
 
-  const { writeContract } = useWriteContract()
+  const { writeContract, isPending } = useWriteContract({config });
   // const { request } = await useWriteContract({
   //   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
   //   abi: TaskManager.abi,
@@ -50,11 +56,16 @@ export default function Home() {
   //   "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6"
   // );
 
+  console.log("address", address);
+
   return (
     <>
       <Head>
         <title>Open Tribe</title>
-        <meta name="description" content="Uniendo Fuerzas, Abriendo Posibilidades" />
+        <meta
+          name="description"
+          content="Uniendo Fuerzas, Abriendo Posibilidades"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
@@ -65,35 +76,34 @@ export default function Home() {
             </h1>
 
             <button
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
                 writeContract({
-                  TaskManager,
-                  address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
-                  functionName: 'mint',
+                  address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
+                  abi: TaskManagerAbi,
+                  functionName: "createTask",
                   args: [
-                    '0xc1d457128dEcAE1CC092728262469Ee796F1Ac45',
-                    '100000000000000',
+                    "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
+                    "100000000000000",
                   ],
-                })
-
-                //contract.methods.mint.call()
-
-
-                console.log('write');
-
+                });
               }}
             >
-              Transfer
+              {isPending ? "Loading": "Transfer"}
             </button>
 
-            <div className="flex flex-col gap-2 text-white w-full mt-[100px]">
+            <div className="mt-[100px] flex w-full flex-col gap-2 text-white">
               <h2 className="text-2xl">Communities</h2>
-              {communities && communities?.map((item) => {
-
-                return (
-                  <CommunityCard key={item.id} id={item.id} name={item.name ?? ''} />
-                )
-              })}
+              {communities &&
+                communities?.map((item) => {
+                  return (
+                    <CommunityCard
+                      key={item.id}
+                      id={item.id}
+                      name={item.name ?? ""}
+                    />
+                  );
+                })}
             </div>
           </div>
         </main>
