@@ -1,8 +1,10 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-verify");
+
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  defaultNetwork: "scrollsepolia",
+  defaultNetwork: "hardhat",
   networks: {
     scrollsepolia: {
       url: "https://sepolia-rpc.scroll.io/",
