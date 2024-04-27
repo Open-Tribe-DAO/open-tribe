@@ -197,4 +197,4 @@ export const TaskManagerABI = [
   },
 ];
 
-export default TaskManagerAbi;
+export default TaskManagerABI;

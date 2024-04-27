@@ -1,16 +1,16 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { useAccount, useReadContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { CommunityCard } from "~/components/CommunityCard";
 import { Layout } from "~/components/Layout";
 
 import { api } from "~/utils/api";
 
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useReadContract } from "wagmi";
 
 import { config } from "~/lib/config";
 
-import { TaskManagerABI } from '~/abi/TaskManager'
+import { TokenMinterABI } from '~/abi/TokenMinter'
 import Web3 from 'web3';
 
 
@@ -23,6 +23,7 @@ export default function Home() {
   const { address, isConnected } = useAccount();
 
   const { writeContract, isPending } = useWriteContract({config });
+
   // const { request } = await useWriteContract({
   //   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
   //   abi: TaskManager.abi,
@@ -40,11 +41,19 @@ export default function Home() {
   //   writeContract({}) 
   // }
 
-  // const { data: balance } = useReadContract({
-  //   ...TaskManager,
-  //   functionName: 'name',
-  //   args: ['0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6'],
-  // })
+//   const result = useReadContract({
+//     abi,
+//     address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+//     functionName: 'totalSupply',
+//   })
+// }
+  const { data: balance, error: fetchError  } = useReadContract({
+    abi: TokenMinterABI,
+    address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
+    functionName: 'name',
+  })
+
+  console.log("BALANCE", balance, error);
 
   // const web3 = new Web3(window?.ethereum);
 
@@ -53,7 +62,7 @@ export default function Home() {
   //   "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6"
   // );
 
-  console.log("address", address);
+  console.log("address", fetchError);
 
   return (
     <>
@@ -76,7 +85,7 @@ export default function Home() {
               className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
                 writeContract({
-                  abi: TaskManagerABI,
+                  abi: TokenMinterABI,
                   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
                   functionName: 'mint',
                   args: [
