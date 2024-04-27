@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 
 import { useWriteContract } from 'wagmi'
 
-import TaskManager from '~/abi/TaskManager.json'
+import { TaskManagerABI } from '~/abi/TaskManager'
 import Web3 from 'web3';
 
 export default function Home() {
@@ -67,7 +67,7 @@ export default function Home() {
             <button
               onClick={() => {
                 writeContract({
-                  TaskManager,
+                  abi: TaskManagerABI,
                   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
                   functionName: 'mint',
                   args: [
