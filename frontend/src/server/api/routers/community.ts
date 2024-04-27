@@ -12,13 +12,23 @@ export const communityRouter = createTRPCRouter({
     return ctx.db.community.findMany()
   }),
 
-  // getOne: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.community.findUnique({
-  //     where: {
-  //       id: '123'
-  //     }
-  //   })
-  // }),
+  getOne: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .query(({ ctx, input }) => {
+    return ctx.db.community.findUnique({
+      where: {
+        id: input.id
+      }
+    })
+  }),
+
+  hello: publicProcedure
+  .input(z.object({ text: z.string() }))
+  .query(({ input }) => {
+    return {
+      greeting: `Hello ${input.text}`,
+    };
+  }),
 
   // create: protectedProcedure
   //   .input(z.object({

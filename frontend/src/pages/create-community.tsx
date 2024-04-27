@@ -1,4 +1,3 @@
-import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useAccount } from "wagmi";
@@ -7,7 +6,6 @@ import { CreateCommunityForm } from "~/components/CreateCommunityForm";
 import { Layout } from "~/components/Layout";
 
 import { api } from "~/utils/api";
-//import { api } from "~/utils/api/";
 
 export default function CreateCommunity() {
   const { data: users } = api.user.getAll.useQuery()
@@ -17,7 +15,7 @@ export default function CreateCommunity() {
   return (
     <>
       <Layout>
-        <div className="max-w-[400px] px-[10px] mt-[30px]">
+        <div className="px-[10px] mt-[30px]">
           <h1 className="text-xl font-bold tracking-tight text-white">
             Create Community
           </h1>
