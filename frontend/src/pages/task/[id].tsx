@@ -1,13 +1,11 @@
 
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Layout } from '~/components/Layout';
 import { api } from "~/utils/api";
-import { prepareContractCall, PreparedTransaction, readContract, resolveMethod, sendTransaction, simulateTransaction, waitForReceipt } from "thirdweb";
-import { taskManagerContract, thirdwebClient } from '~/utils/thirdweb';
-import { TaskCard } from '~/components/TaskCard';
+import { prepareContractCall, readContract} from "thirdweb";
+import { taskManagerContract } from '~/utils/thirdweb';
 import { weiToEth } from '~/utils/utils';
-import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { TransactionButton } from 'thirdweb/react';
 
 export default function TicketDetailsPage() {
@@ -16,8 +14,9 @@ export default function TicketDetailsPage() {
   const { data: taskDB } = api.task.getOne.useQuery({ id: `${id}` })
   const { data: tasks } = api.task.getAll.useQuery()
   const [task, setTask] = useState()
+  const [isTaskCompleted, setIsTaskCompleted] = useState(false)
 
-  const readTask = async () => {
+  const readTask = useCallback(async () => {
     const taskContract = await readContract({
       contract: taskManagerContract,
       method: "tasks",
@@ -25,13 +24,26 @@ export default function TicketDetailsPage() {
     } as never);
 
     setTask(taskContract as any)
-  };
+    setIsTaskCompleted(taskContract[3] as boolean)
+  }, [taskDB]);
+
+  const setStatus = (task: any): string => {
+    let status = 'Pending';
+
+    if (isTaskCompleted) {
+      status = 'Completed'
+    } else if (task[4]) {
+      status = 'Canceled'
+    }
+
+    return status
+  }
 
   useEffect(() => {
     if (taskDB?.taskId) {
       readTask()
     }
-  }, [taskDB])
+  }, [taskDB, readTask])
 
   return (
     <Layout >
@@ -42,59 +54,62 @@ export default function TicketDetailsPage() {
           <div>
             {task && task[0] && <p>Assignee: {task[0]}</p>}
             {task && task[2] && <p>Reward: {weiToEth(task[2])}</p>}
-            {task && <p>Is Completed: {task[3] ? 'true' : 'false'}</p>}
-            {task && <p>Is Canceled: {task[4] ? 'true' : 'false'}</p>}
+            {task && <p>Status: {setStatus(task)}</p>}
           </div>
           
-          <TransactionButton
-            transaction={() => {
-              // Create a transaction object and return it
-              const tx = prepareContractCall({
-                contract: taskManagerContract,
-                method: "completeTask",
-                params: [0],
-              } as never);
-              console.log('tx', tx);
+          {!isTaskCompleted && (
+            <div className='mt-[20px] flex sm:space-x-2'>
+              <TransactionButton
+                transaction={() => {
+                  // Create a transaction object and return it
+                  const tx = prepareContractCall({
+                    contract: taskManagerContract,
+                    method: "completeTask",
+                    params: [0],
+                  } as never);
+                  console.log('tx', tx);
 
-              return tx;
-            }}
-            onTransactionSent={(result) => {
-              console.log("Transaction submitted", result.transactionHash);
-            }}
-            onTransactionConfirmed={(receipt) => {
-              console.log("Transaction confirmed", receipt.transactionHash);
-            }}
-            onError={(error) => {
-              console.error("Transaction error", error);
-            }}
-          >
-            Confirm Task
-          </TransactionButton>
+                  return tx;
+                }}
+                onTransactionSent={(result) => {
+                  console.log("Transaction submitted", result.transactionHash);
+                }}
+                onTransactionConfirmed={(receipt) => {
+                  console.log("Transaction confirmed", receipt.transactionHash);
+                }}
+                onError={(error) => {
+                  console.error("Transaction error", error);
+                }}
+              >
+                Confirm Task
+              </TransactionButton>
 
-          <TransactionButton
-            transaction={() => {
-              // Create a transaction object and return it
-              const tx = prepareContractCall({
-                contract: taskManagerContract,
-                method: "completeTask",
-                params: [0],
-              } as never);
-              console.log('tx', tx);
+              <TransactionButton
+                transaction={() => {
+                  // Create a transaction object and return it
+                  const tx = prepareContractCall({
+                    contract: taskManagerContract,
+                    method: "cancelTask",
+                    params: [0],
+                  } as never);
+                  console.log('tx', tx);
 
-              return tx;
-            }}
-            onTransactionSent={(result) => {
-              console.log("Transaction submitted", result.transactionHash);
-            }}
-            onTransactionConfirmed={(receipt) => {
-              console.log("Transaction confirmed", receipt.transactionHash);
-            }}
-            onError={(error) => {
-              console.error("Transaction error", error);
-            }}
-          >
-            Cancel Task
-          </TransactionButton>
+                  return tx;
+                }}
+                onTransactionSent={(result) => {
+                  console.log("Transaction submitted", result.transactionHash);
+                }}
+                onTransactionConfirmed={(receipt) => {
+                  console.log("Transaction confirmed", receipt.transactionHash);
+                }}
+                onError={(error) => {
+                  console.error("Transaction error", error);
+                }}
+              >
+                Cancel Task
+              </TransactionButton>
+            </div>
+          )}
         </div>
       </div>
     </Layout >
