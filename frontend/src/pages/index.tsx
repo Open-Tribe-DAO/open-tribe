@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { getContract, prepareContractCall } from "thirdweb";
+import { PreparedTransaction, getContract, prepareContractCall } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
 import { CommunityCard } from "~/components/CommunityCard";
 import { Layout } from "~/components/Layout";
@@ -8,12 +8,13 @@ import { api } from "~/utils/api";
 import { thirdwebClient } from "~/utils/thirdweb";
 import { defineChain } from "thirdweb/chains";
 import TokenMinterABI from "~/abi/TokenMinter";
+import { type Abi } from "viem";
 
 const contract = getContract({
   client: thirdwebClient,
   chain: defineChain(534351), 
   address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
-  abi: TokenMinterABI
+  abi: TokenMinterABI as Abi,
 });
 
 export default function Home() {
@@ -29,26 +30,20 @@ export default function Home() {
   
   const onClick = async () => {
     const transaction = prepareContractCall({
-      contract,
+      contract: TokenMinterABI,
       method: "mint",
-      params: [
-        "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
-        "100000000000000",
-      ],
-    });
-    sendTransaction(transaction);
+      params: ["0xc1d457128dEcAE1CC092728262469Ee796F1Ac45", "100000000000000"],
+    } as never);
+    sendTransaction(transaction as PreparedTransaction);
   };
 
   const approveTaskManager = async () => {
     const transaction = prepareContractCall({
-      contract,
+      contract: TokenMinterABI,
       method: "approve",
-      params: [
-        "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
-        "1000000000000000000",
-      ],
-    });
-    sendTransaction(transaction);
+      params: ["0x1B2539b195aF04f4EAb550650E588916aafA7F44", "1000000000000000000"],
+    } as never);
+    sendTransaction(transaction as PreparedTransaction);
   };
 
   return (

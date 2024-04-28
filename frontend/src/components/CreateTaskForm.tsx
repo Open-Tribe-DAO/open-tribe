@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 //import { uuid } from "uuidv4"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { useSendTransaction } from "thirdweb/react";
 import { z } from "zod"
 import { Button } from "src/components/ui/button"
 import {
@@ -20,16 +21,17 @@ import { Textarea } from "src/components/ui/textarea"
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
 import { useAccount } from "wagmi"
-import { defineChain, getContract, prepareContractCall, sendTransaction } from "thirdweb";
+import { defineChain, getContract, prepareContractCall, PreparedTransaction } from "thirdweb";
 import TaskManagerABI from "~/abi/TaskManager"
 import { thirdwebClient } from "~/utils/thirdweb"
+import { type Abi } from "viem";
 //import { taskManagerContract } from "~/utils/thirdweb"
 
 const taskManagerContract = getContract({
   client: thirdwebClient,
   chain: defineChain(534351),
   address: "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
-  abi: TaskManagerABI
+  abi: TaskManagerABI as Abi,
 });
 
 const notEmpty = z.string().trim().min(1, { message: "Required" });
@@ -57,6 +59,7 @@ export const CreateTaskForm = ({ }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [existingSlugError, setExistingSlugError] = useState('')
   const { mutate, status, error } = api.community.create.useMutation()
+  const { mutate: sendTransaction, isPending } = useSendTransaction();
   //const { address } = useAccount();
 
   //console.log('address', address);
@@ -118,18 +121,15 @@ export const CreateTaskForm = ({ }) => {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log('SUBMIT', data);
     mutate(data)
-  }
+  };
 
   const createTask = async () => {
     const transaction = prepareContractCall({
-      taskManagerContract,
+      contract: TaskManagerABI,
       method: "createTask",
-      params: [
-        "0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2",
-        "100000000000000",
-      ],
-    });
-    sendTransaction(transaction);
+      params: ["0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2", "100000000000000"],
+    } as never);
+    sendTransaction(transaction as PreparedTransaction);
   };
 
   return (
