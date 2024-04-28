@@ -20,7 +20,6 @@ import { Textarea } from "src/components/ui/textarea"
 //import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
-import { useAccount } from "wagmi"
 import { defineChain, getContract, prepareContractCall, type PreparedTransaction } from "thirdweb";
 import TaskManagerABI from "~/abi/TaskManager"
 import { thirdwebClient } from "~/utils/thirdweb"

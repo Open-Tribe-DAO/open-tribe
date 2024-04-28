@@ -1,7 +1,5 @@
-import Head from "next/head";
 import { CreateTaskForm } from "~/components/CreateTaskForm";
 import { Layout } from "~/components/Layout";
-
 import { api } from "~/utils/api";
 
 export default function CreateTask() {

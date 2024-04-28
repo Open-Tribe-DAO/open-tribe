@@ -17,10 +17,10 @@ export const TaskCard = ({ item }: TaskCardProps) => {
         contract: taskManagerContract,
         method: "tasks",
         params: [item.taskId],
-      });
+      } as never);
       console.log('fetchedTask', fetchedTask);
 
-      setTask(fetchedTask);
+      setTask(fetchedTask as any);
     };
 
     fetchTask();

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import { AuthenticationModal } from "~/components/AuthenticationModal";
 import { CreateCommunityForm } from "~/components/CreateCommunityForm";
 import { Layout } from "~/components/Layout";
 

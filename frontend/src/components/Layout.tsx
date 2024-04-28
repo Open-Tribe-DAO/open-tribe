@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { getShortAddress } from "~/utils/utils";
-import { AuthenticationModal } from "./AuthenticationModal";
-import { createThirdwebClient } from "thirdweb";
-import { ConnectButton, useConnect } from "thirdweb/react";
-import { injectedProvider } from "thirdweb/wallets";
-import { ConnectEmbed } from "thirdweb/react";
+import { ConnectButton } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { thirdwebClient } from "~/utils/thirdweb";
 
@@ -52,7 +48,6 @@ export const Layout = ({ children }: any) => {
             <ConnectButton client={thirdwebClient} wallets={wallets} />
           </div>
         </div>
-        {/* <AuthenticationModal /> */}
       </div>
       <div className="min-h-screen">
         {children}
