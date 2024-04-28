@@ -1,18 +1,20 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import { useAccount } from "wagmi";
+import { getContract, prepareContractCall } from "thirdweb";
+import { useSendTransaction } from "thirdweb/react";
 import { CommunityCard } from "~/components/CommunityCard";
 import { Layout } from "~/components/Layout";
-
 import { api } from "~/utils/api";
+import { thirdwebClient } from "~/utils/thirdweb";
+import { defineChain } from "thirdweb/chains";
+import TokenMinterABI from "~/abi/TokenMinter";
 
-import { useWriteContract, useReadContract } from "wagmi";
-
-import { config } from "~/lib/config";
-
-import { TokenMinterABI } from '~/abi/TokenMinter'
-import Web3 from 'web3';
-
+const contract = getContract({
+  client: thirdwebClient,
+  chain: defineChain(534351), 
+  address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
+  abi: TokenMinterABI
+});
 
 export default function Home() {
   //const hello = api.post.hello.useQuery({ text: "from tRPC" });
@@ -20,49 +22,22 @@ export default function Home() {
   const { data: communities } = api.community.getAll.useQuery()
   const { mutate, status, error } = api.user.create.useMutation()
   ///hello.useQuery({ text: "from tRPC" });
-  const { address, isConnected } = useAccount();
 
-  const { writeContract, isPending } = useWriteContract({config });
+  const { mutate: sendTransaction, isPending } = useSendTransaction();
 
-  // const { request } = await useWriteContract({
-  //   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
-  //   abi: TaskManager.abi,
-  //   functionName: 'mint',
-  // })
-
-  // const { config, error } = usePrepareContractWrite({
-  //   address: '0xecb504d39723b0be0e3a9aa33d646642d1051ee1',
-  //   abi:TaskManager.abi,
-  //   functionName: 'feed',
-  // })
-  // const { hash } = await writeContract(request)
-
-  // const getTokens=()=>{
-  //   writeContract({}) 
-  // }
-
-//   const result = useReadContract({
-//     abi,
-//     address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-//     functionName: 'totalSupply',
-//   })
-// }
-  const { data: balance, error: fetchError  } = useReadContract({
-    abi: TokenMinterABI,
-    address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
-    functionName: 'name',
-  })
-
-  console.log("BALANCE", balance, error);
-
-  // const web3 = new Web3(window?.ethereum);
-
-  // const contract = new web3.eth.Contract(
-  //   TaskManager.abi,
-  //   "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6"
-  // );
-
-  console.log("address", fetchError);
+  console.log(isPending, 'contract', contract);
+  
+  const onClick = async () => {
+    const transaction = prepareContractCall({
+      contract,
+      method: "mint",
+      params: [
+        "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
+        "100000000000000",
+      ],
+    });
+    sendTransaction(transaction);
+  };
 
   return (
     <>
@@ -84,18 +59,19 @@ export default function Home() {
             <button
               className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
-                writeContract({
-                  abi: TokenMinterABI,
-                  address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
-                  functionName: 'mint',
-                  args: [
-                    "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
-                    "100000000000000",
-                  ],
-                });
+                // writeContract({
+                //   abi: TokenMinterABI,
+                //   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
+                //   functionName: 'mint',
+                //   args: [
+                //     "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
+                //     "100000000000000",
+                //   ],
+                // });
+                onClick()
               }}
             >
-              {isPending ? "Loading": "Transfer"}
+              Transfer
             </button>
 
             <div className="mt-[100px] flex w-full flex-col gap-2 text-white">

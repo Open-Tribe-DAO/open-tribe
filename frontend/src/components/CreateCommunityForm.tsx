@@ -44,9 +44,9 @@ export const CreateCommunityForm = ({ }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [existingSlugError, setExistingSlugError] = useState('')
   const { mutate, status, error } = api.community.create.useMutation()
-  const { address } = useAccount();
+  //const { address } = useAccount();
 
-  console.log('address', address);
+  //console.log('address', address);
 
   console.log('status mutation', status);
 
@@ -60,16 +60,15 @@ export const CreateCommunityForm = ({ }) => {
     },
   })
 
-
-  useEffect(() => {
-    if (address) {
-      form.reset({
-        ...form.getValues(), // Retains any existing form values
-        //name: eventInfo?.name,
-        owner: address
-      });
-    }
-  }, [address, form]);
+  // useEffect(() => {
+  //   if (address) {
+  //     form.reset({
+  //       ...form.getValues(), // Retains any existing form values
+  //       //name: eventInfo?.name,
+  //       owner: address
+  //     });
+  //   }
+  // }, [address, form]);
 
   const { setValue, handleSubmit, watch, register, formState } = form;
   const { errors } = formState;

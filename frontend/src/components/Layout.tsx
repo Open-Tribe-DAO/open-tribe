@@ -1,13 +1,26 @@
 import Link from "next/link";
-import { useAccount } from "wagmi";
 import { getShortAddress } from "~/utils/utils";
 import { AuthenticationModal } from "./AuthenticationModal";
+import { createThirdwebClient } from "thirdweb";
+import { ConnectButton, useConnect } from "thirdweb/react";
+import { injectedProvider } from "thirdweb/wallets";
+
+import { ConnectEmbed } from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { thirdwebClient } from "~/utils/thirdweb";
 
 export const Layout = ({ children }: any) => {
-  const { address, isConnected } = useAccount();
+  //const { address, isConnected } = useAccount();
   const headerlinks = [
     { title: 'Create community', link: '/create-community' }
   ]
+
+  const wallets = [
+    inAppWallet(),
+    createWallet("io.metamask"),
+    createWallet("com.coinbase.wallet"),
+    createWallet("me.rainbow"),
+  ];
 
   return (
     <div className="bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -26,7 +39,7 @@ export const Layout = ({ children }: any) => {
               )
             })}
           </div>
-          {address &&
+          {/* {address &&
             <Link href={'/account'} className="border-solid border-gray-500 border-[1px] rounded-xl my-auto px-2">
               <p className="text-white">{getShortAddress(address)}</p>
             </Link>
@@ -35,7 +48,12 @@ export const Layout = ({ children }: any) => {
             <Link href={'/auth'} className="border-solid border-gray-500 border-[1px] rounded-xl my-auto px-2">
               <p className="text-white">Log In</p>
             </Link>
-          }
+          } */}
+
+          <div>
+            <ConnectButton client={thirdwebClient} wallets={wallets} />
+          </div>
+
         </div>
         {/* <AuthenticationModal /> */}
       </div>
