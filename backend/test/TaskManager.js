@@ -9,23 +9,25 @@ describe("TaskManager Contract", function () {
   let accounts;
   let token;
   let amount;
+  let amount2;
 
   before(async function () {
-    [owner, assignee, ...accounts] = await ethers.getSigners();
+    [owner, assignee, assignee2, ...accounts] = await ethers.getSigners();
 
     const OTToken = await ethers.getContractFactory("OTToken");
     token = await OTToken.deploy(owner.address);
 
-    await token.mint(owner.address, ethers.parseUnits("1000", "ether"));
+    await token.mint(owner.address, ethers.parseUnits("10000", "ether"));
 
-    amount = ethers.parseUnits("100", "ether");
+    amount = ethers.parseUnits("20", "ether");
+    amount2 = ethers.parseUnits("10", "ether");
   });
 
   beforeEach(async function () {
     TaskManager = await ethers.getContractFactory("TaskManager");
     taskManager = await TaskManager.deploy(token.target);
 
-    await token.connect(owner).approve(taskManager.target, amount);
+    await token.connect(owner).approve(taskManager.target, "1000000000000000000000000000");
   });
 
   describe("Deployment", function () {
@@ -67,6 +69,16 @@ describe("TaskManager Contract", function () {
 
       const task = await taskManager.tasks(0);
       expect(task.isCancelled).to.be.true;
+    });
+
+    it("Should return all tasks correctly", async function () {
+
+      await taskManager.connect(owner).createTask(assignee.address, amount);
+      await taskManager.connect(owner).createTask(assignee2.address, amount2);
+    
+
+      const allTasks = await taskManager.getAllTasks();
+      expect(allTasks.length).to.equal(2);
     });
   });
 });
