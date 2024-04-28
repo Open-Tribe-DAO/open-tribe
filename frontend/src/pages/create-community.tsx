@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useAccount } from "wagmi";
 import { AuthenticationModal } from "~/components/AuthenticationModal";
 import { CreateCommunityForm } from "~/components/CreateCommunityForm";
 import { Layout } from "~/components/Layout";
@@ -10,8 +9,6 @@ import { api } from "~/utils/api";
 export default function CreateCommunity() {
   const { data: users } = api.user.getAll.useQuery()
   
-  const { address, isConnected } = useAccount();
-
   return (
     <>
       <Layout>
