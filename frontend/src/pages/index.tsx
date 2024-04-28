@@ -26,8 +26,6 @@ export default function Home() {
 
   const { mutate: sendTransaction, isPending } = useSendTransaction();
 
-  console.log(isPending, 'contract', contract);
-  
   const onClick = async () => {
     const transaction = prepareContractCall({
       contract: contract,
@@ -104,15 +102,6 @@ export default function Home() {
             >
               Create Task
             </button>
-            <button
-              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
-                readTasks()
-              }}
-            >
-              Read Task
-            </button>
-            
             
             <div className="mt-[100px] flex w-full flex-col gap-2 text-white">
               <h2 className="text-2xl">Communities</h2>

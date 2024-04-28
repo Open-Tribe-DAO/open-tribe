@@ -23,7 +23,7 @@ export const Layout = ({ children }: any) => {
 
   return (
     <div className="bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div className="w-full h-[50px] flex justify-between px-[10px] py-[10px]">
+      <div className="w-full h-[90px] flex justify-between px-[10px] py-[10px]">
         <div className="my-auto">
           <Link className="text-white mr-3  text-2xl font-bold" href={"/"} >
             Open Tribe

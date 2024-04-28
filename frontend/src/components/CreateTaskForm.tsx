@@ -60,9 +60,6 @@ export const CreateTaskForm = ({ }) => {
   const [existingSlugError, setExistingSlugError] = useState('')
   const { mutate, status, error } = api.community.create.useMutation()
   const { mutate: sendTransaction, isPending } = useSendTransaction();
-  //const { address } = useAccount();
-
-  //console.log('address', address);
 
   console.log('status mutation', status);
 
@@ -127,8 +124,10 @@ export const CreateTaskForm = ({ }) => {
     const transaction = prepareContractCall({
       contract: taskManagerContract,
       method: "createTask",
-      params: ["0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2", 100000000000000],
-      value: 100000000000000
+      params: [
+        "0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2",
+        "1000000000000000",
+      ],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };
