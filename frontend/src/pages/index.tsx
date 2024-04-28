@@ -26,15 +26,6 @@ export default function Home() {
 
   const { mutate: sendTransaction, isPending } = useSendTransaction();
 
-  const onClick = async () => {
-    const transaction = prepareContractCall({
-      contract: contract,
-      method: "mint",
-      params: ["0xc1d457128dEcAE1CC092728262469Ee796F1Ac45", "100000000000000000"],
-    } as never);
-    sendTransaction(transaction as PreparedTransaction);
-  };
-
   const approveTaskManager = async () => {
     const transaction = prepareContractCall({
       contract: contract,
@@ -75,15 +66,6 @@ export default function Home() {
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
               Open Tribe
             </h1>
-
-            <button
-              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-              onClick={() => {
-                onClick()
-              }}
-            >
-              Mint OTTO
-            </button>
 
             <button
               className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
