@@ -19,12 +19,26 @@ import { Textarea } from "src/components/ui/textarea"
 //import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
+import { useAccount } from "wagmi"
+import { defineChain, getContract, prepareContractCall, sendTransaction } from "thirdweb";
+import TaskManagerABI from "~/abi/TaskManager"
+import { thirdwebClient } from "~/utils/thirdweb"
+//import { taskManagerContract } from "~/utils/thirdweb"
+
+const taskManagerContract = getContract({
+  client: thirdwebClient,
+  chain: defineChain(534351),
+  address: "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
+  abi: TaskManagerABI
+});
 
 const notEmpty = z.string().trim().min(1, { message: "Required" });
 
 const FormSchema = z.object({
   name: z.string().pipe(notEmpty),
   description: z.string().optional(),
+  taskId: z.string().optional(),
+  communityId: z.string().optional(),
   image: z.string().optional(),
   owner: z.string().optional()
 })
@@ -36,7 +50,7 @@ interface Step1Props {
   //eventInfo?: EventType
 }
 
-export const CreateCommunityForm = ({ }) => {
+export const CreateTaskForm = ({ }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
   //const [error, setError] = useState('')
@@ -54,6 +68,8 @@ export const CreateCommunityForm = ({ }) => {
     defaultValues: {
       name: "",
       description: "",
+      taskId: "",
+      communityId: "",
       image: "",
       owner: ""
     },
@@ -104,10 +120,27 @@ export const CreateCommunityForm = ({ }) => {
     mutate(data)
   }
 
+  const createTask = async () => {
+    const transaction = prepareContractCall({
+      taskManagerContract,
+      method: "createTask",
+      params: [
+        "0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2",
+        "100000000000000",
+      ],
+    });
+    sendTransaction(transaction);
+  };
+
   return (
     <div className="">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+
+          <button type="button" onClick={() => {
+            createTask()
+          }}>Create Task</button>
+
           <FormField
             control={form.control}
             name="name"
@@ -130,6 +163,34 @@ export const CreateCommunityForm = ({ }) => {
                 <FormLabel className="text-white">Description</FormLabel>
                 <FormControl>
                   <Input placeholder="Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="taskId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Task Id</FormLabel>
+                <FormControl>
+                  <Input placeholder="Task Id" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="communityId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Community Id</FormLabel>
+                <FormControl>
+                  <Input placeholder="Community Id" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -4,7 +4,6 @@ import { AuthenticationModal } from "./AuthenticationModal";
 import { createThirdwebClient } from "thirdweb";
 import { ConnectButton, useConnect } from "thirdweb/react";
 import { injectedProvider } from "thirdweb/wallets";
-
 import { ConnectEmbed } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { thirdwebClient } from "~/utils/thirdweb";
@@ -29,7 +28,6 @@ export const Layout = ({ children }: any) => {
           <Link className="text-white mr-3  text-2xl font-bold" href={"/"} >
             Open Tribe
           </Link>
-
         </div>
         <div className="flex">
           <div className="my-auto">
@@ -53,11 +51,9 @@ export const Layout = ({ children }: any) => {
           <div>
             <ConnectButton client={thirdwebClient} wallets={wallets} />
           </div>
-
         </div>
         {/* <AuthenticationModal /> */}
       </div>
-
       <div className="min-h-screen">
         {children}
       </div>

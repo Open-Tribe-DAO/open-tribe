@@ -37,6 +37,18 @@ export default function Home() {
     sendTransaction(transaction as PreparedTransaction);
   };
 
+  const approveTaskManager = async () => {
+    const transaction = prepareContractCall({
+      contract,
+      method: "approve",
+      params: [
+        "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
+        "1000000000000000000",
+      ],
+    });
+    sendTransaction(transaction);
+  };
+
   return (
     <>
       <Head>
@@ -57,19 +69,19 @@ export default function Home() {
             <button
               className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
               onClick={() => {
-                // writeContract({
-                //   abi: TokenMinterABI,
-                //   address: '0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6',
-                //   functionName: 'mint',
-                //   args: [
-                //     "0xc1d457128dEcAE1CC092728262469Ee796F1Ac45",
-                //     "100000000000000",
-                //   ],
-                // });
                 onClick()
               }}
             >
-              Transfer
+              Mint OTTO
+            </button>
+
+            <button
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              onClick={() => {
+                approveTaskManager()
+              }}
+            >
+              Approve Task Manager on Token Minter
             </button>
 
             <div className="mt-[100px] flex w-full flex-col gap-2 text-white">
