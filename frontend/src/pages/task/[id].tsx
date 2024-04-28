@@ -21,10 +21,10 @@ export default function TicketDetailsPage() {
     const taskContract = await readContract({
       contract: taskManagerContract,
       method: "tasks",
-      params: [taskDB.taskId],
-    });
+      params: [taskDB?.taskId],
+    } as never);
 
-    setTask(taskContract)
+    setTask(taskContract as any)
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function TicketDetailsPage() {
                 contract: taskManagerContract,
                 method: "completeTask",
                 params: [0],
-              });
+              } as never);
               console.log('tx', tx);
 
               return tx;
@@ -78,7 +78,7 @@ export default function TicketDetailsPage() {
                 contract: taskManagerContract,
                 method: "completeTask",
                 params: [0],
-              });
+              } as never);
               console.log('tx', tx);
 
               return tx;
