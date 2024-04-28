@@ -1,19 +1,9 @@
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { Inter } from "next/font/google";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import AuthContext from "~/context/AuthContext";
-import { WagmiProvider } from 'wagmi'
-// import {
-//   ThirdwebProvider,
-//   metamaskWallet,
-//   coinbaseWallet,
-//   walletConnect,
-//   embeddedWallet,
-//   ConnectWallet
-// } from "@thirdweb-dev/react";
 import { ThirdwebProvider } from "thirdweb/react";
 
 const inter = Inter({

@@ -1,13 +1,17 @@
 import { signOut } from "next-auth/react";
+import { useActiveWallet, useDisconnect } from "thirdweb/react";
 
-import { useAccount, useDisconnect } from "wagmi";
 import { Layout } from "~/components/Layout";
 
 
 export default function Home() {
-  const { disconnectAsync } = useDisconnect();
+  const wallet = useActiveWallet();
+  const { disconnect } = useDisconnect();
+  
   const handleSignout = async () => {
-    await disconnectAsync();
+    if (wallet) {
+      disconnect(wallet);
+    }
     signOut({ callbackUrl: "/" });
   };
 
