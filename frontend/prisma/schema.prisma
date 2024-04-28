@@ -61,11 +61,21 @@ model User {
 }
 
 model Community {
-  id            String    @id @default(cuid())
-  name          String?
-  description       String?
-  image         String?   @unique
-  owner         String?
+  id          String  @id @default(cuid())
+  name        String?
+  description String?
+  image       String? @unique
+  owner       String?
+}
+
+model Task {
+  id          String  @id @default(cuid())
+  name        String?
+  taskId      String?
+  description String?
+  image       String? @unique
+  owner       String?
+  communityId String?
 }
 
 model VerificationToken {
