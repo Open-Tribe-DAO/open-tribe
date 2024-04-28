@@ -125,9 +125,10 @@ export const CreateTaskForm = ({ }) => {
 
   const createTask = async () => {
     const transaction = prepareContractCall({
-      contract: TaskManagerABI,
+      contract: taskManagerContract,
       method: "createTask",
-      params: ["0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2", "100000000000000"],
+      params: ["0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2", 100000000000000],
+      value: 100000000000000
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };

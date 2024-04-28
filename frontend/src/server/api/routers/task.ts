@@ -9,13 +9,13 @@ import {
 export const taskRouter = createTRPCRouter({
 
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.community.findMany()
+    return ctx.db.task.findMany()
   }),
 
   getOne: publicProcedure
   .input(z.object({ id: z.string() }))
   .query(({ ctx, input }) => {
-    return ctx.db.community.findUnique({
+    return ctx.db.task.findUnique({
       where: {
         id: input.id
       }
@@ -51,7 +51,7 @@ export const taskRouter = createTRPCRouter({
     }))
     .mutation(async ({ ctx, input }) => {
 
-      return ctx.db.community.create({
+      return ctx.db.task.create({
         data: {
           name: input.name,
           description: input.description,

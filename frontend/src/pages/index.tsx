@@ -5,7 +5,7 @@ import { useSendTransaction } from "thirdweb/react";
 import { CommunityCard } from "~/components/CommunityCard";
 import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
-import { thirdwebClient } from "~/utils/thirdweb";
+import { taskManagerContract, thirdwebClient } from "~/utils/thirdweb";
 import { defineChain } from "thirdweb/chains";
 import TokenMinterABI from "~/abi/TokenMinter";
 import { type Abi } from "viem";
@@ -32,7 +32,7 @@ export default function Home() {
     const transaction = prepareContractCall({
       contract: contract,
       method: "mint",
-      params: ["0xc1d457128dEcAE1CC092728262469Ee796F1Ac45", "100000000000000"],
+      params: ["0xc1d457128dEcAE1CC092728262469Ee796F1Ac45", "100000000000000000"],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };
@@ -44,6 +44,18 @@ export default function Home() {
       params: [
         "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
         "1000000000000000000",
+      ],
+    } as never);
+    sendTransaction(transaction as PreparedTransaction);
+  };
+
+  const createTask = async () => {
+    const transaction = prepareContractCall({
+      contract: taskManagerContract,
+      method: "createTask",
+      params: [
+        "0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2",
+        "1000000000000000",
       ],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
@@ -84,6 +96,24 @@ export default function Home() {
               Approve Task Manager on Token Minter
             </button>
 
+            <button
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              onClick={() => {
+                createTask()
+              }}
+            >
+              Create Task
+            </button>
+            <button
+              className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+              onClick={() => {
+                readTasks()
+              }}
+            >
+              Read Task
+            </button>
+            
+            
             <div className="mt-[100px] flex w-full flex-col gap-2 text-white">
               <h2 className="text-2xl">Communities</h2>
               {communities &&
