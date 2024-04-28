@@ -9,13 +9,12 @@ import { thirdwebClient } from "~/utils/thirdweb";
 import { defineChain } from "thirdweb/chains";
 import TokenMinterABI from "~/abi/TokenMinter";
 import { type Abi } from "viem";
-import TaskManagerABI from "~/abi/TaskManager";
 
 const contract = getContract({
   client: thirdwebClient,
   chain: defineChain(534351), 
   address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
-  abi: TokenMinterABI as Abi
+  abi: TokenMinterABI as Abi,
 });
 
 export default function Home() {
@@ -40,13 +39,10 @@ export default function Home() {
 
   const approveTaskManager = async () => {
     const transaction = prepareContractCall({
-      contract: TaskManagerABI as Abi,
+      contract: TokenMinterABI,
       method: "approve",
-      params: [
-        "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
-        "1000000000000000000",
-      ],
-    } as never) ;
+      params: ["0x1B2539b195aF04f4EAb550650E588916aafA7F44", "1000000000000000000"],
+    } as never);
     sendTransaction(transaction as PreparedTransaction);
   };
 
