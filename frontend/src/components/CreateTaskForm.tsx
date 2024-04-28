@@ -21,7 +21,7 @@ import { Textarea } from "src/components/ui/textarea"
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
 import { useAccount } from "wagmi"
-import { defineChain, getContract, prepareContractCall, PreparedTransaction } from "thirdweb";
+import { defineChain, getContract, prepareContractCall, type PreparedTransaction } from "thirdweb";
 import TaskManagerABI from "~/abi/TaskManager"
 import { thirdwebClient } from "~/utils/thirdweb"
 import { type Abi } from "viem";

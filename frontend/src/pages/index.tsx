@@ -30,7 +30,7 @@ export default function Home() {
   
   const onClick = async () => {
     const transaction = prepareContractCall({
-      contract: TokenMinterABI,
+      contract: contract,
       method: "mint",
       params: ["0xc1d457128dEcAE1CC092728262469Ee796F1Ac45", "100000000000000"],
     } as never);
@@ -39,9 +39,12 @@ export default function Home() {
 
   const approveTaskManager = async () => {
     const transaction = prepareContractCall({
-      contract: TokenMinterABI,
+      contract: contract,
       method: "approve",
-      params: ["0x1B2539b195aF04f4EAb550650E588916aafA7F44", "1000000000000000000"],
+      params: [
+        "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
+        "1000000000000000000",
+      ],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };
