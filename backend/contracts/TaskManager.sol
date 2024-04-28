@@ -26,7 +26,6 @@ contract TaskManager {
     }
 
     function createTask(address assignee, uint256 reward) public {
-        //Check if the wallet has sufficient allowance
         require(token.allowance(msg.sender, address(this)) >= reward, "Insufficient token allowance.");
         uint256 taskId = nextTaskId++;
         tasks[taskId] = Task(assignee, msg.sender, reward, false, false);
@@ -35,9 +34,7 @@ contract TaskManager {
     }
 
     function completeTask(uint256 taskId) public {
-        //Only the creator of the contract can run this function
         require(msg.sender == tasks[taskId].creator, "Not authorized to complete task");
-        //require(msg.sender == tasks[taskId].assignee, "You are not the assignee");
         require(!tasks[taskId].isCompleted, "Task already completed");
         require(!tasks[taskId].isCancelled, "Task has been cancelled");
 
@@ -58,5 +55,13 @@ contract TaskManager {
     function checkAllowance(address owner, uint256 rewardAmount) public view returns (bool) {
         uint256 allowance = token.allowance(owner, address(this));
         return allowance >= rewardAmount;
+    }
+
+    function getAllTasks() public view returns (Task[] memory) {
+        Task[] memory allTasks = new Task[](nextTaskId);
+        for (uint256 i = 0; i < nextTaskId; i++) {
+            allTasks[i] = tasks[i];
+        }
+        return allTasks;
     }
 }
