@@ -26,6 +26,10 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 
 [V0RTEx 01 | A Scroll Hackathon](https://dorahacks.io/hackathon/v0rtex-01/detail)
 
+## Architecture
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/60ceab04-2077-4949-ba48-b221861ad572/5cade1b7-2c81-437f-bca5-c3de8061f4df/Untitled.png)
+
 ## Tech Stack
 
 ### FE
