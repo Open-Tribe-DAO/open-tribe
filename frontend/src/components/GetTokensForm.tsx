@@ -15,22 +15,21 @@ import {
 } from "src/components/ui/form"
 import { Input } from "src/components/ui/input"
 import { useRouter } from "next/router"
-import { tokenMinterContract } from "~/utils/thirdweb"
-import { prepareContractCall, PreparedTransaction, toWei } from "thirdweb"
+import { taskManagerContract, tokenMinterContract } from "~/utils/thirdweb"
+import { prepareContractCall, PreparedTransaction, readContract, toWei } from "thirdweb"
 import { useSendTransaction } from "thirdweb/react"
 
 const notEmpty = z.string().trim().min(1, { message: "Required" });
 
 const FormSchema = z.object({
-  tokensAmount: z.number()
-    .min(0.0001, { message: "Amount must be at least 0.0001" })  // Ensure the number is at least 0.0001
-    .max(2, { message: "Amount must not be greater than 2" }),
+  tokensAmount: z.number(),
   communityLeader: z.string().pipe(notEmpty),
 })
 
 export const GetTokensForm = ({ }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
+  const [latestEthPrice, setLatestEthPrice] = useState(0)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -43,7 +42,7 @@ export const GetTokensForm = ({ }) => {
   useEffect(() => {
     form.reset({
       ...form.getValues(), // Retains any existing form values
-      tokensAmount: 0.0001
+      tokensAmount: 1
     });
   }, [form]);
 
@@ -69,6 +68,23 @@ export const GetTokensForm = ({ }) => {
     console.log('toWei(tokensAmount)', toWei(`${data.tokensAmount}`));
     mintTokens(data.communityLeader, `${data.tokensAmount}`)
   }
+
+  useEffect(() => {
+    const getLatestEthPrice = async () => {
+      const ethPrice = await readContract({
+        contract: taskManagerContract,
+        method: "getLatestEthPrice",
+        params: [],
+      } as never);
+      console.log('ethPrice', ethPrice);
+
+      setLatestEthPrice(ethPrice as any);
+    };
+
+    console.log('getLatestEthPrice', getLatestEthPrice);
+
+    getLatestEthPrice();
+  }, []);
 
   return (
     <div className="">

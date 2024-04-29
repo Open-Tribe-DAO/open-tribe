@@ -10,13 +10,6 @@ import TokenMinterABI from "~/abi/TokenMinter";
 import { type Abi } from "viem";
 import { TASK_MANAGER_CONTRACT_ADDRESS, TOKEN_MINTER_CONTRACT_ADDRESS } from "~/utils/utils";
 
-const contract = getContract({
-  client: thirdwebClient,
-  chain: defineChain(534351),
-  address: TOKEN_MINTER_CONTRACT_ADDRESS,
-  abi: TokenMinterABI as Abi,
-});
-
 export default function Admin() {
   //const hello = api.post.hello.useQuery({ text: "from tRPC" });
   const { data: users } = api.user.getAll.useQuery()

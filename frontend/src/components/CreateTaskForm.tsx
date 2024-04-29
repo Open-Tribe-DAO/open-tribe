@@ -28,9 +28,7 @@ const notEmpty = z.string().trim().min(1, { message: "Required" });
 const FormSchema = z.object({
   name: z.string().pipe(notEmpty),
   assignee: z.string().pipe(notEmpty),
-  tokensAmount: z.number()
-    .min(0.0001, { message: "Amount must be at least 0.0001" })  // Ensure the number is at least 0.0001
-    .max(2, { message: "Amount must not be greater than 2" }),
+  tokensAmount: z.string(),
   description: z.string().optional(),
   taskId: z.string().optional(),
   communityId: z.string().optional(),
@@ -52,7 +50,7 @@ export const CreateTaskForm = ({ }) => {
     defaultValues: {
       name: "",
       assignee: "",
-      tokensAmount: 0.0001,
+      tokensAmount: '1',
       description: "",
       taskId: "0",
       communityId: "",
@@ -68,7 +66,7 @@ export const CreateTaskForm = ({ }) => {
   useEffect(() => {
     form.reset({
       ...form.getValues(), // Retains any existing form values
-      tokensAmount: 0.0001
+      tokensAmount: '1'
     });
   }, [form]);
 
@@ -197,7 +195,7 @@ export const CreateTaskForm = ({ }) => {
               <FormItem>
                 <FormLabel className="text-white">Tokens Amount*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Tokens Amount" type="number" {...field} />
+                  <Input placeholder="Tokens Amount" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
