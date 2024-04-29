@@ -1,8 +1,5 @@
 # Open Tribe
 
-![image](https://github.com/Open-Tribe-DAO/open-tribe/assets/1393385/90f65d61-add7-4267-8355-af27f5bfef66)
-
-
 ## Introduction:
 In the ecosystem of technology development where collaboration and innovation are keys to success, tech communities face a common challenge: operating in silos, limiting their growth and development potential. Open Tribe emerges as the solution to this challenge, bringing these communities together on a collaborative platform.
 
