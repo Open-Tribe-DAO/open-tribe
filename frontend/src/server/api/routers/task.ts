@@ -46,6 +46,8 @@ export const taskRouter = createTRPCRouter({
     .input(z.object({
       name: z.string().min(1),
       description: z.string().optional(),
+      taskId: z.string().optional(),
+      communityId: z.string().optional(),
       image: z.string().optional(),
       owner: z.string().optional()
     }))
@@ -54,6 +56,8 @@ export const taskRouter = createTRPCRouter({
       return ctx.db.task.create({
         data: {
           name: input.name,
+          taskId: input.taskId,
+          communityId: input.communityId,
           description: input.description,
           image: input.image,
           owner: input.owner,
