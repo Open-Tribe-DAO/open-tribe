@@ -55,9 +55,9 @@ Open Tribe offers significant benefits such as:
 - Premium services for advanced features and analytics
 - Community and Ecosystem
 - Building a supportive and active community is essential. Strategies include:
-- - Regular workshops and meetups
-- - Active online forums and support channels
-- - Collaborative development practices
+-- Regular workshops and meetups
+-- Active online forums and support channels
+-- Collaborative development practices
 
 ## Partnerships
 Strategic partnerships with tech companies, educational institutions, and non-profit organizations are crucial for resource support and platform promotion.
@@ -110,5 +110,5 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 
 
 #
-Token deployed to: [0xA486118610CfAF9ca28d207F841062363C6AF804](https://sepolia.scrollscan.com/address/0xA486118610CfAF9ca28d207F841062363C6AF804#code)
-TaskManager deployed to: [0x1363D7Da572aB869C6af2bD647D9fe67035E82e0](https://sepolia.scrollscan.com/address/0x1363D7Da572aB869C6af2bD647D9fe67035E82e0#code)
+- Token deployed to: [0xA486118610CfAF9ca28d207F841062363C6AF804](https://sepolia.scrollscan.com/address/0xA486118610CfAF9ca28d207F841062363C6AF804#code)
+- TaskManager deployed to: [0x1363D7Da572aB869C6af2bD647D9fe67035E82e0](https://sepolia.scrollscan.com/address/0x1363D7Da572aB869C6af2bD647D9fe67035E82e0#code)
