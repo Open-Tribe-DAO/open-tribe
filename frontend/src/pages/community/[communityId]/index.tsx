@@ -7,7 +7,7 @@ import { Button } from '~/components/ui/button';
 
 export default function TicketDetailsPage() {
   const router = useRouter();
-  const id = Array.isArray(router.query.id) ? router.query.id[0] : router.query.id;
+  const id = Array.isArray(router.query.communityId) ? router.query.communityId[0] : router.query.communityId;
 
   const { data: community } = api.community.getOne.useQuery({ id: `${id}` })
   const { data: tasks } = api.task.getAll.useQuery()
@@ -23,7 +23,7 @@ export default function TicketDetailsPage() {
         <div className='mt-[20px]'>
           <div className='flex mb-[10px]'>
             <h2 className='text-2xl mr-[10px]'>Tasks</h2>
-            <Button onClick={() => router.push('/create-task')}>Create Task</Button>
+            {community?.id && <Button onClick={() => router.push(`/community/${community?.id}/create-task`)}>Create Task</Button>}
           </div>
           {tasks?.map((item, index) => {
 

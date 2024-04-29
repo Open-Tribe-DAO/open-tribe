@@ -38,7 +38,11 @@ const FormSchema = z.object({
   owner: z.string().optional()
 })
 
-export const CreateTaskForm = ({ }) => {
+interface CreateTaskFormProps {
+  communityId: string
+}
+
+export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProps) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
   //const [error, setError] = useState('')
@@ -82,6 +86,7 @@ export const CreateTaskForm = ({ }) => {
 
       const formattedNumber = Number(fetchedTask)
       setValue('taskId', formattedNumber.toString())
+      setValue('communityId', pCommunityId)
     };
 
     fetchTask();
@@ -225,7 +230,7 @@ export const CreateTaskForm = ({ }) => {
               <FormItem>
                 <FormLabel className="text-white">Community Id</FormLabel>
                 <FormControl>
-                  <Input placeholder="Community Id" {...field} />
+                  <Input placeholder="Community Id" disabled {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
