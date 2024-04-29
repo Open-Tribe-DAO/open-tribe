@@ -125,7 +125,7 @@ export const CreateTaskForm = ({ }) => {
         toWei(tokensAmount),
       ],
     } as never);
-    await sendTransaction(transaction as PreparedTransaction);
+    sendTransaction(transaction as PreparedTransaction);
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {

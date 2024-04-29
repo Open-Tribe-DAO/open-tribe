@@ -4,10 +4,18 @@ import { useSendTransaction } from "thirdweb/react";
 import { CommunityCard } from "~/components/CommunityCard";
 import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
-import { taskManagerContract, TASK_MANAGER_ADDRESS, thirdwebClient, tokenMinterContract } from "~/utils/thirdweb";
+import { taskManagerContract, thirdwebClient, tokenMinterContract } from "~/utils/thirdweb";
 import { defineChain } from "thirdweb/chains";
 import TokenMinterABI from "~/abi/TokenMinter";
 import { type Abi } from "viem";
+import { TASK_MANAGER_CONTRACT_ADDRESS, TOKEN_MINTER_CONTRACT_ADDRESS } from "~/utils/utils";
+
+const contract = getContract({
+  client: thirdwebClient,
+  chain: defineChain(534351),
+  address: TOKEN_MINTER_CONTRACT_ADDRESS,
+  abi: TokenMinterABI as Abi,
+});
 
 export default function Admin() {
   //const hello = api.post.hello.useQuery({ text: "from tRPC" });
@@ -22,10 +30,7 @@ export default function Admin() {
     const transaction = prepareContractCall({
       contract: tokenMinterContract,
       method: "approve",
-      params: [
-        TASK_MANAGER_ADDRESS,
-        "1000000000000000000",
-      ],
+      params: [TASK_MANAGER_CONTRACT_ADDRESS, "1000000000000000000"],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };

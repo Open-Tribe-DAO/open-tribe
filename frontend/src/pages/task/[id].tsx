@@ -51,7 +51,7 @@ export default function TicketDetailsPage() {
         <div className='mt-[20px]'>
           <div className='flex'>
             <h2 className='text-3xl'>{taskDB?.name}</h2>
-            <div className={`ml-2 w-[10px] h-[10px] rounded-full ${task && task[3] === true || task && task[4] === true ? 'bg-red-500' : 'bg-green-500'}`}></div>
+            <div className={`ml-2 w-[10px] h-[10px] rounded-full ${task && (task[3] || task[4]) ? 'bg-red-500' : 'bg-green-500'}`}></div>
           </div>
           <p>{taskDB?.description}</p>
           <div className='mt-[10px]'>

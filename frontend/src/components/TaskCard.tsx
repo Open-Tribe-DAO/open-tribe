@@ -65,7 +65,7 @@ export const TaskCard = ({ item }: TaskCardProps) => {
       <div>
         <div className='flex'>
           <p className='text-xl'>{item.name}</p>
-          <div className={`ml-2 w-[10px] h-[10px] rounded-full ${task && task[3] === true || task && task[4] === true ? 'bg-red-500' : 'bg-green-500'}`}></div>
+          <div className={`ml-2 w-[10px] h-[10px] rounded-full ${task && (task[3] || task[4]) ? 'bg-red-500' : 'bg-green-500'}`}></div>
         </div>
         <div className='flex flex-wrap'>
           <p className='mr-[10px]'>Reward: {weiToEth(task[2])}</p>
