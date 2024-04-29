@@ -6,7 +6,7 @@ require('dotenv').config();
 // Custom constants
 const constants = {
   // Check this address at https://docs.chain.link/data-feeds/price-feeds/addresses?network=scroll&page=1
-  chainlink_eth_to_usd_address: "0x1234567890abcdef1234567890abcdef12345678",
+  chainlink_eth_to_usd_address: process.env.CHAINLINK_PROXY_ADDRESS,
 };
 
 /** @type import('hardhat/config').HardhatUserConfig */
