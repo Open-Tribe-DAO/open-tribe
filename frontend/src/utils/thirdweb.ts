@@ -5,10 +5,13 @@ import { type Abi } from "viem";
 
 export const thirdwebClient = createThirdwebClient({ clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID ?? '' });
 
+export const TASK_MANAGER_ADDRESS = "0x1B2539b195aF04f4EAb550650E588916aafA7F44"
+export const TOKEN_MINTER_ADDRESS = "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6"
+
 export const taskManagerContract = getContract({
   client: thirdwebClient,
-  chain: defineChain(534351), 
-  address: "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
+  chain: defineChain(534351),
+  address: TASK_MANAGER_ADDRESS,
   abi: TaskManagerABI as Abi,
 });
 
