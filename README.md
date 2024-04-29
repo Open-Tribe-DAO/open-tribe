@@ -103,8 +103,8 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 ## Contributors
 
 - [Alfredo Bonilla](https://github.com/brolag)
-- [Robert Ramirez](https://github.com/robertram)
 - [Jonatan Chaverri](https://github.com/Jonatan-Chaverri)
+- [Robert Ramirez](https://github.com/robertram)
 - [William Ugalde](https://github.com/wugalde19)
 - [Randall Valenciano](https://github.com/ravf226)
 
