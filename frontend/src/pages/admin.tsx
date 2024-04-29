@@ -9,11 +9,12 @@ import { taskManagerContract, thirdwebClient } from "~/utils/thirdweb";
 import { defineChain } from "thirdweb/chains";
 import TokenMinterABI from "~/abi/TokenMinter";
 import { type Abi } from "viem";
+import { TASK_MANAGER_CONTRACT_ADDRESS, TOKEN_MINTER_CONTRACT_ADDRESS } from "~/utils/utils";
 
 const contract = getContract({
   client: thirdwebClient,
-  chain: defineChain(534351), 
-  address: "0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6",
+  chain: defineChain(534351),
+  address: TOKEN_MINTER_CONTRACT_ADDRESS,
   abi: TokenMinterABI as Abi,
 });
 
@@ -30,10 +31,7 @@ export default function Admin() {
     const transaction = prepareContractCall({
       contract: contract,
       method: "approve",
-      params: [
-        "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
-        "1000000000000000000",
-      ],
+      params: [TASK_MANAGER_CONTRACT_ADDRESS, "1000000000000000000"],
     } as never);
     sendTransaction(transaction as PreparedTransaction);
   };

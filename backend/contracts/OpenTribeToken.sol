@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract OTToken is ERC20, ERC20Burnable, Ownable {
+contract OpenTribeToken is ERC20, ERC20Burnable, Ownable {
     constructor(address initialOwner) ERC20("OTToken", "OTTO") Ownable(initialOwner) {
         transferOwnership(msg.sender); 
     }

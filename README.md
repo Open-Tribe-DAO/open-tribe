@@ -108,6 +108,6 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 - [William Ugalde](https://github.com/wugalde19)
 
 
-#
+# Contracts
 - Token deployed to: [0xA486118610CfAF9ca28d207F841062363C6AF804](https://sepolia.scrollscan.com/address/0xA486118610CfAF9ca28d207F841062363C6AF804#code)
 - TaskManager deployed to: [0x1363D7Da572aB869C6af2bD647D9fe67035E82e0](https://sepolia.scrollscan.com/address/0x1363D7Da572aB869C6af2bD647D9fe67035E82e0#code)
