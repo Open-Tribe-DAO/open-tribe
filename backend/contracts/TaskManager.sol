@@ -2,9 +2,11 @@
 pragma solidity ^0.8.23;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
 contract TaskManager {
     IERC20 public token;
+    AggregatorV3Interface internal priceFeed;
 
     struct Task {
         address assignee;
@@ -21,8 +23,26 @@ contract TaskManager {
     event TaskCompleted(uint256 taskId);
     event TaskCancelled(uint256 taskId);
 
-    constructor(address tokenAddress) {
+    constructor(address tokenAddress, address priceFeedAddress) {
         token = IERC20(tokenAddress);
+        priceFeed = AggregatorV3Interface(priceFeedAddress);
+    }
+
+    function getLatestEthPrice() public view returns (int) {
+        (
+            /* uint80 roundID */,
+            int answer,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = priceFeed.latestRoundData();
+        return answer;
+    }
+
+    function usdToEth(uint256 usdAmount) public view returns (uint256) {
+        int ethPrice = getLatestEthPrice(); // Price of 1 ETH in USD
+        require(ethPrice > 0, "Invalid ETH price");
+        return (usdAmount * 1e18) / uint256(ethPrice);
     }
 
     function createTask(address assignee, uint256 reward) public {

@@ -24,8 +24,9 @@ describe("TaskManager Contract", function () {
   });
 
   beforeEach(async function () {
+    const { chainlink_eth_to_usd_address } = hre.config.constants;
     TaskManager = await ethers.getContractFactory("TaskManager");
-    taskManager = await TaskManager.deploy(token.target);
+    taskManager = await TaskManager.deploy(token.target, chainlink_eth_to_usd_address);
 
     await token.connect(owner).approve(taskManager.target, "1000000000000000000000000000");
   });
