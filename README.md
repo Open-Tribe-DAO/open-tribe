@@ -19,6 +19,10 @@ Benefits:
 - Visibility and Access: We improve the visibility of events, opportunities, and resources, expanding the reach and impact of the member communities.
 - Collaborative Innovation: Our platform is a catalyst for innovation, facilitating collaboration among communities with common goals.
 
+## Developer guide
+
+- To deploy the backend, refer to the [README.md](https://github.com/Open-Tribe-DAO/open-tribe/blob/main/backend/README.md) file in the backend folder.
+- To deploy the frontend, refer to the [README.md](https://github.com/Open-Tribe-DAO/open-tribe/blob/main/frontend/README.md) file in the frontend folder.
 
 ## Market Overview
 ### Target audiences include:
