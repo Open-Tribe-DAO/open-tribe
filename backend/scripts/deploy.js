@@ -14,8 +14,9 @@ async function main() {
     console.log("Token deployed to:", token.target);
 
     // Deploy TaskManager contract
+    const { chainlink_eth_to_usd_address } = hre.config.constants;
     const TaskManager = await hre.ethers.getContractFactory("TaskManager");
-    const taskManager = await TaskManager.deploy(token.target);
+    const taskManager = await TaskManager.deploy(token.target, chainlink_eth_to_usd_address);
     await token.waitForDeployment();
 
     console.log("TaskManager deployed to:", taskManager.target);
