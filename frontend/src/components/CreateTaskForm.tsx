@@ -17,7 +17,6 @@ import {
 } from "src/components/ui/form"
 import { Input } from "src/components/ui/input"
 import { Textarea } from "src/components/ui/textarea"
-//import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
 import { prepareContractCall, readContract, toWei, type PreparedTransaction } from "thirdweb";
@@ -36,16 +35,11 @@ const FormSchema = z.object({
   owner: z.string().optional()
 })
 
-interface CreateTaskFormProps {
-  communityId: string
-}
-
-export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProps) => {
+export const CreateTaskForm = () => {
   const router = useRouter();
+  const routerCommunityId = Array.isArray(router.query.communityId) ? router.query.communityId[0] : router.query.communityId;
   const [loading, setLoading] = useState(false)
-  //const [error, setError] = useState('')
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
-  const [existingSlugError, setExistingSlugError] = useState('')
+  const [isCreated, setIsCreated] = useState(false)
   const { mutate: mutateTask, status, error } = api.task.create.useMutation()
   const { mutate: sendTransaction, isPending, isSuccess, status: transactionStatus, data: transactionData } = useSendTransaction();
 
@@ -56,8 +50,8 @@ export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProp
       assignee: "",
       tokensAmount: '1',
       description: "",
+      communityId: routerCommunityId,
       taskId: "0",
-      communityId: "",
       image: "",
       owner: ""
     },
@@ -75,6 +69,12 @@ export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProp
   }, [form]);
 
   useEffect(() => {
+    if (routerCommunityId) {
+      setValue('communityId', routerCommunityId)
+    }
+  }, [routerCommunityId]);
+
+  useEffect(() => {
     const fetchTask = async () => {
       const fetchedTask = await readContract({
         contract: taskManagerContract,
@@ -84,7 +84,6 @@ export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProp
 
       const formattedNumber = Number(fetchedTask)
       setValue('taskId', formattedNumber.toString())
-      setValue('communityId', pCommunityId)
     };
 
     fetchTask();
@@ -137,13 +136,16 @@ export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProp
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (!isCreated && isSuccess) {
       mutateTask({
         name: name,
         description: description,
         taskId: taskId,
         communityId: communityId,
       })
+      setIsCreated(true)
+
+      router.push(`/community/${routerCommunityId}`)
     }
   }, [isSuccess])
 
@@ -304,7 +306,7 @@ export const CreateTaskForm = ({ communityId: pCommunityId }: CreateTaskFormProp
           /> */}
 
           <div className="flex justify-end">
-            <Button type="submit">Create</Button>
+            <Button disabled={isCreated} type="submit">Create</Button>
           </div>
         </form>
       </Form>
