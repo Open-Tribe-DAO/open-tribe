@@ -15,5 +15,5 @@ Uniendo Fuerzas, Abriendo Posibilidades
 
 
 #
-Token deployed to: 0xFEa742547a8c0d2a70606B4106c5B20736BfCeD6
-TaskManager deployed to: 0x1B2539b195aF04f4EAb550650E588916aafA7F44
+Token deployed to: 0xA486118610CfAF9ca28d207F841062363C6AF804
+TaskManager deployed to: 0x1363D7Da572aB869C6af2bD647D9fe67035E82e0
