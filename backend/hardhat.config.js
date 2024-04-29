@@ -14,6 +14,7 @@ module.exports = {
   defaultNetwork: "hardhat",
   networks: {
     scrollSepolia: {
+      gasPrice: 700000000,
       url: "https://sepolia-rpc.scroll.io/" || "",
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
