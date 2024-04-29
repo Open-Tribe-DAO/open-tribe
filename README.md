@@ -99,7 +99,6 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 [Hardhat](https://hardhat.org/)
 [Solidity](https://soliditylang.org/)
 [OpenZeppelin](https://www.openzeppelin.com/)
-[Chainlink (for random numbers)](https://docs.chain.link/vrf)
 
 ## Contributors
 
