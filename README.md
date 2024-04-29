@@ -28,7 +28,7 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 
 ## Architecture
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/60ceab04-2077-4949-ba48-b221861ad572/5cade1b7-2c81-437f-bca5-c3de8061f4df/Untitled.png)
+<img width="802" alt="image" src="https://github.com/Open-Tribe-DAO/open-tribe/assets/1393385/ea65a1e7-38a4-4e01-9cf4-3d1e7c801863">
 
 ## Tech Stack
 
