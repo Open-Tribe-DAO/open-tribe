@@ -20,23 +20,17 @@ import { Textarea } from "src/components/ui/textarea"
 //import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router"
 import { api } from "~/utils/api";
-import { defineChain, getContract, prepareContractCall, type PreparedTransaction } from "thirdweb";
-import TaskManagerABI from "~/abi/TaskManager"
-import { thirdwebClient } from "~/utils/thirdweb"
-import { type Abi } from "viem";
-//import { taskManagerContract } from "~/utils/thirdweb"
-
-const taskManagerContract = getContract({
-  client: thirdwebClient,
-  chain: defineChain(534351),
-  address: "0x1B2539b195aF04f4EAb550650E588916aafA7F44",
-  abi: TaskManagerABI as Abi,
-});
+import { prepareContractCall, readContract, toWei, type PreparedTransaction } from "thirdweb";
+import { taskManagerContract } from "~/utils/thirdweb"
 
 const notEmpty = z.string().trim().min(1, { message: "Required" });
 
 const FormSchema = z.object({
   name: z.string().pipe(notEmpty),
+  assignee: z.string().pipe(notEmpty),
+  tokensAmount: z.number()
+    .min(0.0001, { message: "Amount must be at least 0.0001" })  // Ensure the number is at least 0.0001
+    .max(2, { message: "Amount must not be greater than 2" }),
   description: z.string().optional(),
   taskId: z.string().optional(),
   communityId: z.string().optional(),
@@ -44,49 +38,54 @@ const FormSchema = z.object({
   owner: z.string().optional()
 })
 
-interface Step1Props {
-  id?: string
-  step: number
-  setStep: (step: number) => void
-  //eventInfo?: EventType
-}
-
 export const CreateTaskForm = ({ }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
   //const [error, setError] = useState('')
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [existingSlugError, setExistingSlugError] = useState('')
-  const { mutate, status, error } = api.community.create.useMutation()
-  const { mutate: sendTransaction, isPending } = useSendTransaction();
-
-  console.log('status mutation', status);
+  const { mutate: mutateTask, status, error } = api.task.create.useMutation()
+  const { mutate: sendTransaction, isPending, isSuccess, status: transactionStatus, data: transactionData } = useSendTransaction();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: "",
+      assignee: "",
+      tokensAmount: 0.0001,
       description: "",
-      taskId: "",
+      taskId: "0",
       communityId: "",
       image: "",
       owner: ""
     },
   })
 
-  // useEffect(() => {
-  //   if (address) {
-  //     form.reset({
-  //       ...form.getValues(), // Retains any existing form values
-  //       //name: eventInfo?.name,
-  //       owner: address
-  //     });
-  //   }
-  // }, [address, form]);
-
   const { setValue, handleSubmit, watch, register, formState } = form;
   const { errors } = formState;
   console.log('errors', errors);
+
+  useEffect(() => {
+    form.reset({
+      ...form.getValues(), // Retains any existing form values
+      tokensAmount: 0.0001
+    });
+  }, [form]);
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const fetchedTask = await readContract({
+        contract: taskManagerContract,
+        method: "nextTaskId",
+        params: [],
+      } as never);
+
+      const formattedNumber = Number(fetchedTask)
+      setValue('taskId', formattedNumber.toString())
+    };
+
+    fetchTask();
+  }, []);
 
   // const handleFileChange = (event: any) => {
   //   const file = event.target.files[0];
@@ -113,33 +112,42 @@ export const CreateTaskForm = ({ }) => {
   // };
 
   const name = watch("name");
+  const description = watch("description");
+  const taskId = watch("taskId");
+  const communityId = watch("communityId");
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log('SUBMIT', data);
-    mutate(data)
-  };
-
-  const createTask = async () => {
+  const createTask = async (assignee: string, tokensAmount: string) => {
     const transaction = prepareContractCall({
       contract: taskManagerContract,
       method: "createTask",
       params: [
-        "0x44b49653d0Db62DEeAB2f2a7B3C555AA2bFf90A2",
-        "1000000000000000",
+        assignee,
+        toWei(tokensAmount),
       ],
     } as never);
-    sendTransaction(transaction as PreparedTransaction);
+    await sendTransaction(transaction as PreparedTransaction);
   };
+
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    console.log('SUBMIT', data);
+    await createTask(data.assignee, `${data.tokensAmount}`)
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      mutateTask({
+        name: name,
+        description: description,
+        taskId: taskId,
+        communityId: communityId,
+      })
+    }
+  }, [isSuccess])
 
   return (
     <div className="">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-
-          <button type="button" onClick={() => {
-            createTask()
-          }}>Create Task</button>
-
           <FormField
             control={form.control}
             name="name"
@@ -170,12 +178,40 @@ export const CreateTaskForm = ({ }) => {
 
           <FormField
             control={form.control}
+            name="assignee"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Task Assignee*</FormLabel>
+                <FormControl>
+                  <Input placeholder="Task Assignee" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="tokensAmount"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white">Tokens Amount*</FormLabel>
+                <FormControl>
+                  <Input placeholder="Tokens Amount" type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="taskId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-white">Task Id</FormLabel>
                 <FormControl>
-                  <Input placeholder="Task Id" {...field} />
+                  <Input placeholder="Task Id" disabled {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -196,7 +232,7 @@ export const CreateTaskForm = ({ }) => {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="image"
             render={({ field }) => (
@@ -222,7 +258,7 @@ export const CreateTaskForm = ({ }) => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           {/* <FormField
             control={form.control}

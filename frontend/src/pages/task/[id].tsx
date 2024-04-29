@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import { Layout } from '~/components/Layout';
 import { api } from "~/utils/api";
-import { prepareContractCall, readContract} from "thirdweb";
+import { prepareContractCall, readContract } from "thirdweb";
 import { taskManagerContract } from '~/utils/thirdweb';
 import { weiToEth } from '~/utils/utils';
 import { TransactionButton } from 'thirdweb/react';
@@ -49,14 +49,17 @@ export default function TicketDetailsPage() {
     <Layout >
       <div className="px-[10px] mt-[30px] text-white">
         <div className='mt-[20px]'>
-          <h2 className='text-3xl'>{taskDB?.name}</h2>
+          <div className='flex'>
+            <h2 className='text-3xl'>{taskDB?.name}</h2>
+            <div className={`ml-2 w-[10px] h-[10px] rounded-full ${task && (task[3] === false && task[4] === false) ? 'bg-red-500' : 'bg-green-500'}`}></div>
+          </div>
           <p>{taskDB?.description}</p>
           <div>
             {task && task[0] && <p>Assignee: {task[0]}</p>}
             {task && task[2] && <p>Reward: {weiToEth(task[2])}</p>}
             {task && <p>Status: {setStatus(task)}</p>}
           </div>
-          
+
           {!isTaskCompleted && (
             <div className='mt-[20px] flex sm:space-x-2'>
               <TransactionButton

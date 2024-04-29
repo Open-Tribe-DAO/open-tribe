@@ -27,7 +27,7 @@ export const Layout = ({ children, title }: LayoutProps) => {
   return (
     <div>
       <Head>
-        <title>Open Tribe | {title ?? title}</title>
+        <title>Open Tribe {title ? `|  ${title}` : ''}</title>
         <meta
           name="description"
           content="Uniendo Fuerzas, Abriendo Posibilidades"
