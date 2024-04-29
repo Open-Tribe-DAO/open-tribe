@@ -26,7 +26,7 @@ export default function TicketDetailsPage() {
             {community?.id && <Button onClick={() => router.push(`/community/${community?.id}/create-task`)}>Create Task</Button>}
           </div>
           {tasks?.map((item, index) => {
-
+            if (id != item.communityId) return (<></>)
             return (
               <TaskCard item={item} key={index} />
             )

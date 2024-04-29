@@ -60,6 +60,8 @@ export const TaskCard = ({ item }: TaskCardProps) => {
     return <div>Loading...</div>;
   }
 
+  if (task[0] === "0x0000000000000000000000000000000000000000") return null
+
   return (
     <Link href={`/task/${item.id}`} className='flex border-2 border-solid border-gray-300 rounded-md h-[80px] w-full p-[10px] mb-[10px]'>
       <div>

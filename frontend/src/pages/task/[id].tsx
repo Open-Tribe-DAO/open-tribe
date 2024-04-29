@@ -15,6 +15,7 @@ export default function TicketDetailsPage() {
   const { data: tasks } = api.task.getAll.useQuery()
   const [task, setTask] = useState(null);
   const [isTaskCompleted, setIsTaskCompleted] = useState(false)
+  const [isTaskCanceled, setIsTaskCanceled] = useState(false)
 
   const readTask = useCallback(async () => {
     const taskContract = await readContract({
@@ -25,6 +26,7 @@ export default function TicketDetailsPage() {
 
     setTask(taskContract as any)
     setIsTaskCompleted(taskContract[3] as boolean)
+    setIsTaskCanceled(taskContract[4] as boolean)
   }, [taskDB]);
 
   const setStatus = (task: any): string => {
@@ -60,7 +62,7 @@ export default function TicketDetailsPage() {
             {task && <p><span className='font-bold'>Status:</span> {setStatus(task)}</p>}
           </div>
 
-          {!isTaskCompleted && (
+          {!isTaskCompleted || !isTaskCanceled && (
             <div className='mt-[20px] flex sm:space-x-2'>
               <TransactionButton
                 transaction={() => {
@@ -79,6 +81,7 @@ export default function TicketDetailsPage() {
                 }}
                 onTransactionConfirmed={(receipt) => {
                   console.log("Transaction confirmed", receipt.transactionHash);
+                  setIsTaskCompleted(true)
                 }}
                 onError={(error) => {
                   console.error("Transaction error", error);
@@ -101,6 +104,7 @@ export default function TicketDetailsPage() {
                 }}
                 onTransactionSent={(result) => {
                   console.log("Transaction submitted", result.transactionHash);
+                  setIsTaskCanceled(true)
                 }}
                 onTransactionConfirmed={(receipt) => {
                   console.log("Transaction confirmed", receipt.transactionHash);
