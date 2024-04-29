@@ -106,6 +106,7 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 - [Robert Ramirez](https://github.com/robertram)
 - [Jonatan Chaverri](https://github.com/Jonatan-Chaverri)
 - [William Ugalde](https://github.com/wugalde19)
+- [Randall Valenciano](https://github.com/ravf226)
 
 
 # Contracts
