@@ -1,33 +1,29 @@
-// scripts/deploy_contracts.js
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
+require("dotenv").config();
+
 
 async function main() {
-    const [deployer] = await hre.ethers.getSigners();
-    console.log("Deploying contracts with the account:", deployer.address);
+  const OpenTribeToken = await ethers.getContractFactory("OpenTribeToken");
+  const initialOwnerAddress = process.env.INITIAL_OWNER_ADDRESS;
 
-    // Deploy Token contract
-    const Token = await hre.ethers.getContractFactory("OTToken");
-    const token = await Token.deploy(deployer.address);
-    
-    await token.waitForDeployment();
+  const openTribeToken = await OpenTribeToken.deploy(initialOwnerAddress);
 
-    console.log("Token deployed to:", token.target);
+  console.log("OpenTribeToken deployed to:", openTribeToken.target);
 
-    // Deploy TaskManager contract
-    const { chainlink_eth_to_usd_address } = hre.config.constants;
-    const TaskManager = await hre.ethers.getContractFactory("TaskManager");
-    const taskManager = await TaskManager.deploy(token.target, chainlink_eth_to_usd_address);
-    await token.waitForDeployment();
-
-    console.log("TaskManager deployed to:", taskManager.target);
-
-    //Set the TaskManager contract as approved in the tokenMinter contract
-    const approvalAmount = 1000000000000000;
-    const approveTx = await token.connect(deployer).approve(taskManager.target, approvalAmount);
-    await approveTx.wait(); // Wait for the approval transaction to be mined
+  const TaskManager = await ethers.getContractFactory("TaskManager");
+  
+  const taskManager = await TaskManager.deploy(
+    openTribeToken.target,
+    process.env.CHAINLINK_PROXY_ADDRESS
+  );
+  
+  console.log("TaskManager deployed to:", taskManager.target);
 }
 
-main().then(() => process.exit(0)).catch(error => {
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
     console.error(error);
     process.exit(1);
-});
+  });
+

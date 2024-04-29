@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
+require("@nomicfoundation/hardhat-ignition-ethers");
 require('dotenv').config();
 
 // Custom constants
@@ -12,12 +13,28 @@ const constants = {
 module.exports = {
   defaultNetwork: "hardhat",
   networks: {
-    scrollsepolia: {
-      gasPrice: 700000000,
-      url: "https://sepolia-rpc.scroll.io/",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    scrollSepolia: {
+      url: "https://sepolia-rpc.scroll.io/" || "",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
   },
+  etherscan: {
+    apiKey: {
+      scrollSepolia: process.env.EXPLORER_API_KEY,
+    },
+    customChains: [
+      {
+        network: "scrollSepolia",
+        chainId: 534351,
+        urls: {
+          apiURL: "https://api-sepolia.scrollscan.com/api",
+          browserURL: "https://sepolia.scrollscan.com/",
+        },
+      },
+    ],
+  },
+
   solidity: "0.8.23",
   paths: {
     sources: "./contracts",
