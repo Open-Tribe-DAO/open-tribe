@@ -93,6 +93,8 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 [RailwayDB (MySql)](https://railway.app/)
 [Prisma](https://www.prisma.io/)
 [TRPC](https://trpc.io/)
+[Cloudflare Workers](https://workers.cloudflare.com/)
+[Cloudflare R2](https://www.cloudflare.com/developer-platform/r2/)
 
 ### Smart Contracts
 
@@ -103,9 +105,10 @@ Open Tribe is not just a platform; it is a movement towards a more integrated an
 ## Contributors
 
 - [Alfredo Bonilla](https://github.com/brolag)
-- [Robert Ramirez](https://github.com/robertram)
 - [Jonatan Chaverri](https://github.com/Jonatan-Chaverri)
+- [Robert Ramirez](https://github.com/robertram)
 - [William Ugalde](https://github.com/wugalde19)
+- [Randall Valenciano](https://github.com/rvalenciano)
 
 
 # Contracts

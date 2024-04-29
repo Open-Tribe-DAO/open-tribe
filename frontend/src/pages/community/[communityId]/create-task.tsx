@@ -1,10 +1,13 @@
+import { useRouter } from 'next/router';
 import { CreateTaskForm } from "~/components/CreateTaskForm";
 import { Layout } from "~/components/Layout";
 import { api } from "~/utils/api";
 
 export default function CreateTask() {
-  const { data: users } = api.user.getAll.useQuery()
-  
+  const router = useRouter();
+  const { data: users } = api.user.getAll.useQuery();
+  const communityId = Array.isArray(router.query.communityId) ? router.query.communityId[0] : router.query.communityId;
+
   return (
     <>
       <Layout>
@@ -13,7 +16,7 @@ export default function CreateTask() {
             Create Task
           </h1>
 
-          <CreateTaskForm  />
+          <CreateTaskForm communityId={communityId ?? ''} />
         </div>
       </Layout>
     </>
