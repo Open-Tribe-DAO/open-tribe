@@ -13,7 +13,9 @@ Open Tribe is a collaborative hub based on Ethereum, designed to unite tech comm
 - Integrated Event Calendar: With our shared calendar, we ensure that important events have their own space, optimizing planning and participation.
 - Directory of Suppliers and Partnerships: We provide access to a wide network of businesses, universities, and providers that are pillars of the technological ecosystem.
 - Collaboration Measurement: We implement tools to quantify and recognize the contributions of each member, incentivizing active and sustained participation through tokens.
-Benefits:
+
+## Benefits:
+
 - Resource Optimization: Open Tribe promotes a more efficient use of shared resources, reducing costs and duplicities.
 - Community Strengthening: We encourage the creation of stronger ties among communities, building a more united and collaborative tech ecosystem.
 - Visibility and Access: We improve the visibility of events, opportunities, and resources, expanding the reach and impact of the member communities.
