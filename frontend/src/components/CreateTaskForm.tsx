@@ -145,9 +145,15 @@ export const CreateTaskForm = () => {
       })
       setIsCreated(true)
 
-      router.push(`/community/${routerCommunityId}`)
+
     }
   }, [isSuccess])
+
+  useEffect(() => {
+    if (status == "success") {
+      router.push(`/community/${routerCommunityId}`)
+    }
+  }, [status])
 
   return (
     <div className="">
